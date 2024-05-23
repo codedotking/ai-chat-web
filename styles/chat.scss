@@ -1,0 +1,30 @@
+:root {
+  --pointerColor: #ffffff;
+}
+.typing {
+  display: inline;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    transparent calc(100% - 2px),
+    var(--pointerColor) calc(100% - 2px),
+    var(--pointerColor)
+  );
+  background-size: 100% 70%;
+  background-position: 0 5px;
+  background-repeat: no-repeat;
+  animation: colorChange 0.8s linear infinite;
+  padding-right: 4px;
+}
+
+@keyframes colorChange {
+  0%,
+  40% {
+    --pointerColor: #ffffff;
+  }
+
+  60%,
+  100% {
+    --pointerColor: transparent;
+  }
+}
