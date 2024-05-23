@@ -16,7 +16,7 @@ interface ComponentProps {
 const MessageItem: React.FC<{ message: Message }> = ({ message }) => {
   const isUser = message.role === "user";
   return (
-    <div className="w-full  ">
+    <div className="w-full  text-white">
       <div className={cn("w-full  flex", isUser && " justify-end")}>
         <div
           className={cn(
@@ -30,13 +30,13 @@ const MessageItem: React.FC<{ message: Message }> = ({ message }) => {
               <ChatBubbleIcon className="w-6 h-6 cursor-pointer" />
             )}
           </div>
-          <div className="dark:bg-[#31313a] prose dark:prose-invert prose-p:my-4 shadow-md rounded-md px-4  select-text">
+          <div className="bg-[#45454e]  prose-invert  prose-p:my-4 shadow-md rounded-md px-4  select-text">
             <div
               className={cn(message.answering && "typing", "")}
               dangerouslySetInnerHTML={{
                 __html:
                   message.role == "user"
-                    ? message.content
+                    ? `<p>${message.content}</>`
                     : getMdiText(message.content),
               }}></div>
           </div>

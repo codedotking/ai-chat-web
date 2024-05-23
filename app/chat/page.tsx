@@ -1,11 +1,12 @@
-import Chat from "@/components/chat";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "AI CHAT",
-  description: "AI CHAT",
-};
+"use client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ChatPage() {
-  return <Chat />;
+  // 重定向到 / 页面
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/");
+  });
+  return <></>;
 }

@@ -20,7 +20,7 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <body className={cn(inter.className, " select-none")}>
+      <body className={cn(inter.className, "select-none bg-[#292932]")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -23,8 +23,13 @@ export default function Home() {
   };
 
   return (
-    <main className="h-screen bg-primary  px-4 md:px-0  mx-auto  flex flex-col justify-between items-center ">
-      <PromptInput handleSubmit={handleSubmit} className="xl:w-[960px] w-full px-8" />
+    <main className="h-screen px-4 md:px-0  mx-auto  flex flex-col justify-center items-center ">
+      <div>
+        <PromptInput
+          handleSubmit={handleSubmit}
+          className=""
+        />
+      </div>
     </main>
   );
 }

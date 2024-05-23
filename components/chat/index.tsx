@@ -4,6 +4,7 @@ import MessageList from "@/components/chat/message/List";
 import { useImmer } from "use-immer";
 import { toast } from "react-hot-toast";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
+import React from "react";
 export type Message = {
   content: string;
   role: string;
@@ -16,9 +17,12 @@ const message = {
   answering: false,
 };
 
-export default function Chat() {
-  const [messageList, setMessageList] = useImmer<Message[]>([message]);
+interface ChatProps {
+  chatId: string;
+}
 
+const Chat: React.FC<ChatProps> = ({ chatId }) => {
+  const [messageList, setMessageList] = useImmer<Message[]>([message]);
   const handleSubmit = async (prompt: string) => {
     try {
       // check if prompt is empty
@@ -56,7 +60,6 @@ export default function Chat() {
           answering: true,
         });
       });
-
       // make a POST call to our api route
       fetchEventSource("/api/chat/completions", {
         method: "POST",
@@ -92,8 +95,10 @@ export default function Chat() {
     <main className="h-screen px-4 md:px-0  xl:w-[960px] mx-auto  flex flex-col justify-between items-center ">
       <MessageList messageList={messageList} className="w-full mt-4 flex-1" />
       <div className={"w-full xl:w-10/12 space-y-2 flex justify-center  my-12"}>
-        <PromptInput handleSubmit={handleSubmit} className=" px-8" />
+        <PromptInput handleSubmit={handleSubmit}  />
       </div>
     </main>
   );
-}
+};
+
+export default Chat;
