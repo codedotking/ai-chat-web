@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "@/styles/globals.css";
+import "@/styles/chat.scss";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import NavBar from "@/components/NavBar";
 import { Toaster } from "react-hot-toast";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,7 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn(inter.className, " select-none")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

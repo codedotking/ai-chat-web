@@ -1,8 +1,11 @@
+"use client";
 import { type Message } from "@/app/page";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { getMdiText } from "@/lib/markdown";
+import "highlight.js/styles/github-dark.min.css";
 
 interface ComponentProps {
   messageList: Message[];
@@ -13,22 +16,28 @@ interface ComponentProps {
 const MessageItem: React.FC<{ message: Message }> = ({ message }) => {
   const isUser = message.role === "user";
   return (
-    <div className="w-full text-white">
+    <div className="w-full text-white ">
       <div className={cn("w-full text-white flex", isUser && " justify-end")}>
         <div
           className={cn(
-            "flex gap-4 items-center",
+            "flex gap-4 w-full  xl:w-4/5",
             isUser && "flex-row-reverse"
           )}>
           <div className=" shrink-0">
             {isUser ? (
-              <div className="h-6 w-6 text-white">You</div>
+              <div className="w-6 h-6 text-white text-sm">You</div>
             ) : (
-              <ChatBubbleIcon className="w-5 h-5 cursor-pointer" />
+              <ChatBubbleIcon className="w-6 h-6 cursor-pointer" />
             )}
           </div>
-          <div className="bg-[#31313a] shadow-md  rounded-md px-4 py-4 ">
-            {message.content}
+          <div
+            className="bg-[#31313a] shadow-md  prose prose-invert prose-p:my-4
+          rounded-md px-4  select-text">
+            <div
+              className={cn(message.answering && "typing", "")}
+              dangerouslySetInnerHTML={{
+                __html: getMdiText(message.content),
+              }}></div>
           </div>
         </div>
       </div>
@@ -37,8 +46,18 @@ const MessageItem: React.FC<{ message: Message }> = ({ message }) => {
 };
 
 const MessageList: React.FC<ComponentProps> = ({ messageList, className }) => {
+  const messageListRef = useRef<HTMLDivElement>(null);
+  const onScrollChange = () => {
+    const ele = messageListRef.current;
+    if (ele) {
+      ele.scrollTop = ele?.scrollHeight;
+    }
+  };
+  useEffect(() => {
+    onScrollChange();
+  }, [messageList]);
   return (
-    <ScrollArea className={cn(className)}>
+    <ScrollArea className={cn(className, "px-8")} ref={messageListRef}>
       <div className="flex flex-col gap-4">
         {messageList.map((message, index) => {
           return <MessageItem key={index} message={message} />;
