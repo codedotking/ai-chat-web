@@ -1,10 +1,11 @@
-import openai from "@/lib/openAiServices";
+import { modelsList } from "@/models";
 import { NextResponse } from "next/server";
 
 const GET = async () => {
-  const { data = [] } = await openai.models.list();
+  console.log(modelsList);
+  
   return NextResponse.json({
-    data,
+    data: modelsList,
     code: 200,
     message: "ok",
   });

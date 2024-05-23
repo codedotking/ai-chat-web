@@ -1,6 +1,6 @@
 "use client";
 import PromptInput from "@/components/chat/PromptInput";
-import MessageList from "@/components/chat/message/List";
+import { useRouter } from "next/navigation";
 import { useImmer } from "use-immer";
 
 export type Message = {
@@ -16,13 +16,15 @@ const message = {
 };
 
 export default function Home() {
-  const [messageList, setMessageList] = useImmer<Message[]>([message]);
+  const router = useRouter();
+  const handleSubmit = (prompt: string) => {
+    console.log(prompt);
+    router.push(`/chat?prompt=${prompt}`);
+  };
+
   return (
-    <main className="h-screen px-4 md:px-0  xl:w-[960px] mx-auto  flex flex-col justify-between items-center ">
-      <MessageList messageList={messageList} className="w-full mt-4 flex-1" />
-      <div className={"w-full xl:w-10/12 space-y-2 flex justify-center  my-12"}>
-        <PromptInput setMessageList={setMessageList} className=" px-8" />
-      </div>
+    <main className="h-screen bg-primary  px-4 md:px-0  mx-auto  flex flex-col justify-between items-center ">
+      <PromptInput handleSubmit={handleSubmit} className="xl:w-[960px] w-full px-8" />
     </main>
   );
 }

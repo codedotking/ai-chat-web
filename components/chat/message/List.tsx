@@ -16,8 +16,8 @@ interface ComponentProps {
 const MessageItem: React.FC<{ message: Message }> = ({ message }) => {
   const isUser = message.role === "user";
   return (
-    <div className="w-full text-white ">
-      <div className={cn("w-full text-white flex", isUser && " justify-end")}>
+    <div className="w-full  ">
+      <div className={cn("w-full  flex", isUser && " justify-end")}>
         <div
           className={cn(
             "flex gap-4 w-full  xl:w-4/5",
@@ -25,18 +25,19 @@ const MessageItem: React.FC<{ message: Message }> = ({ message }) => {
           )}>
           <div className=" shrink-0">
             {isUser ? (
-              <div className="w-6 h-6 text-white text-sm">You</div>
+              <div className="w-6 h-6 text-sm">You</div>
             ) : (
               <ChatBubbleIcon className="w-6 h-6 cursor-pointer" />
             )}
           </div>
-          <div
-            className="bg-[#31313a] shadow-md  prose prose-invert prose-p:my-4
-          rounded-md px-4  select-text">
+          <div className="dark:bg-[#31313a] prose dark:prose-invert prose-p:my-4 shadow-md rounded-md px-4  select-text">
             <div
               className={cn(message.answering && "typing", "")}
               dangerouslySetInnerHTML={{
-                __html: getMdiText(message.content),
+                __html:
+                  message.role == "user"
+                    ? message.content
+                    : getMdiText(message.content),
               }}></div>
           </div>
         </div>
@@ -57,7 +58,7 @@ const MessageList: React.FC<ComponentProps> = ({ messageList, className }) => {
     onScrollChange();
   }, [messageList]);
   return (
-    <ScrollArea className={cn(className, "px-8")} ref={messageListRef}>
+    <ScrollArea className={cn(className, "px-8 py-8")} ref={messageListRef}>
       <div className="flex flex-col gap-4">
         {messageList.map((message, index) => {
           return <MessageItem key={index} message={message} />;

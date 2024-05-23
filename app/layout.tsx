@@ -26,7 +26,9 @@ const RootLayout = ({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          <main className=" min-h-screen  w-full bg-[#292932]">{children}</main>
+          <main className=" min-h-screen  w-full ">
+            {children}
+          </main>
           <Toaster />
         </ThemeProvider>
       </body>
