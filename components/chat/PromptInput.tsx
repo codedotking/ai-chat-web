@@ -51,6 +51,13 @@ const PromptInput: React.FC<ComponentProps> = ({ handleSubmit, className }) => {
         outline-none
          focus:outline-none"
       />
+
+      
+
+
+
+
+
       <div className="flex-1 flex justify-end">
         <Button
           disabled={!enableSubmit}
