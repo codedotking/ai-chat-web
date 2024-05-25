@@ -1,6 +1,5 @@
 "use client";
 import TextArea from "@/components/TextArea";
-import { useRef, useState } from "react";
 
 export default function Page() {
 

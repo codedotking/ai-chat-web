@@ -25,10 +25,7 @@ export default function Home() {
   return (
     <main className="h-screen px-4 md:px-0  mx-auto  flex flex-col justify-center items-center ">
       <div>
-        <PromptInput
-          handleSubmit={handleSubmit}
-          className=""
-        />
+        <PromptInput handleSubmit={handleSubmit} className="" />
       </div>
     </main>
   );

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Textarea } from "../ui/textarea";
+import Textarea from "../TextArea";
 
 interface ComponentProps {
   className?: string;
@@ -30,10 +30,10 @@ const PromptInput: React.FC<ComponentProps> = ({ handleSubmit, className }) => {
   return (
     <div
       className={cn(
-        "flex flex-1 gap-4  flex-col  px-2 py-2 xl:w-[960px]  bg-[#45454e] rounded-md",
+        " flex flex-wrap px-2 py-2 xl:w-[960px]  bg-[#45454e] rounded-md",
         className
       )}>
-      <Textarea
+      {/* <Textarea
         ref={textareaRef}
         value={prompt}
         placeholder={"Type here..."}
@@ -50,13 +50,10 @@ const PromptInput: React.FC<ComponentProps> = ({ handleSubmit, className }) => {
         focus-visible:outline-none
         outline-none
          focus:outline-none"
-      />
-
-      
-
-
-
-
+      /> */}
+      <div className="flex-grow overflow-auto break-all">
+        <Textarea />
+      </div>
 
       <div className="flex-1 flex justify-end">
         <Button
