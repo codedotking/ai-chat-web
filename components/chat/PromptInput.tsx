@@ -30,7 +30,7 @@ const PromptInput: React.FC<ComponentProps> = ({ handleSubmit, className }) => {
   return (
     <div
       className={cn(
-        " flex flex-wrap px-2 py-2 xl:w-[960px]  bg-[#45454e] rounded-md",
+        " flex flex-wrap py-3 xl:w-[960px]  bg-[#45454e] rounded-md gap-4 px-4",
         className
       )}>
       {/* <Textarea
@@ -51,11 +51,20 @@ const PromptInput: React.FC<ComponentProps> = ({ handleSubmit, className }) => {
         outline-none
          focus:outline-none"
       /> */}
-      <div className="flex-grow overflow-auto break-all">
-        <Textarea />
+      <div className="flex-grow overflow-auto break-all flex items-center">
+        <Textarea
+          onKeyDown={(e) => {
+            if (e.ctrlKey && e.key === "Enter") {
+              handleSubmit(prompt);
+            }
+          }}
+          onChange={(str) => {
+            setPrompt(str);
+          }}
+          className=" overflow-y-auto max-h-32 w-full text-white bg-transparent  border-none focus-visible:outline-none"
+        />
       </div>
-
-      <div className="flex-1 flex justify-end">
+      <div className="flex items-end mr-auto">
         <Button
           disabled={!enableSubmit}
           onClick={() => enableSubmit && handleSubmit(prompt)}
