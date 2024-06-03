@@ -1,37 +1,49 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useRef, useState } from "react";
-import ContentEditable from "react-contenteditable";
-
+import {
+  useRef,
+  type KeyboardEventHandler,
+  type KeyboardEvent,
+  useEffect,
+} from "react";
+import ContentEditable, {
+  type ContentEditableEvent,
+} from "react-contenteditable";
 interface TextAreaProps {
   className?: string;
-  onKeyDown?: (event: any) => void;
-  onChange?: (event: any) => void;
+  value?: string;
+  onKeyDown?: (evt: KeyboardEvent) => void;
+  onChange?: (str: string) => void;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
+  value = "",
   className,
   onKeyDown,
   onChange,
 }) => {
-  const text = useRef("");
-  const handleChange = (evt: any) => {
+  const text = useRef(value);
+  useEffect(() => {
+    text.current = value;
+  }, [value]);
+
+  const handleChange = (evt: ContentEditableEvent) => {
     text.current = evt.target.value;
+    onChange && onChange(text.current);
   };
+
+  const handleKeyDown: KeyboardEventHandler = (
+    evt: KeyboardEvent<HTMLDivElement>
+  ) => onKeyDown && onKeyDown(evt);
+
   return (
     <ContentEditable
       html={text.current}
       className={cn("whitespace-pre-wrap", className)}
-      onKeyDown={(event: any) => {
-        onKeyDown && onKeyDown(event);
-        // if (event.key === "Enter" && event.ctrlKey) {
-        //   return;
-        // }
-      }}
-      onChange={(evt: any) => {
-        onChange && onChange("Niahi1");
-      }}
+      onKeyDown={handleKeyDown}
+      onChange={handleChange}
     />
   );
 };
+
 export default TextArea;

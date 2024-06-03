@@ -5,6 +5,7 @@ import { useImmer } from "use-immer";
 import { toast } from "react-hot-toast";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import React from "react";
+
 export type Message = {
   content: string;
   role: string;
@@ -23,6 +24,7 @@ interface ChatProps {
 
 const Chat: React.FC<ChatProps> = ({ chatId }) => {
   const [messageList, setMessageList] = useImmer<Message[]>([message]);
+
   const handleSubmit = async (prompt: string) => {
     try {
       // check if prompt is empty
@@ -95,7 +97,7 @@ const Chat: React.FC<ChatProps> = ({ chatId }) => {
     <main className="h-screen px-4 md:px-0  xl:w-[960px] mx-auto  flex flex-col justify-between items-center ">
       <MessageList messageList={messageList} className="w-full mt-4 flex-1" />
       <div className={"w-full xl:w-10/12 space-y-2 flex justify-center  my-12"}>
-        <PromptInput handleSubmit={handleSubmit}  />
+        <PromptInput onSubmit={handleSubmit} />
       </div>
     </main>
   );

@@ -1,73 +1,58 @@
 import { Button } from "@/components/ui/button";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import Textarea from "../TextArea";
 
 interface ComponentProps {
   className?: string;
-  handleSubmit: (prompt: string) => void;
+  onSubmit: (prompt: string) => void;
 }
 
-// 提示词输入的地方
-const PromptInput: React.FC<ComponentProps> = ({ handleSubmit, className }) => {
-  const [prompt, setPrompt] = useState("");
+/**
+ * 提示词输入组件
+ * @param ComponentProps ComponentProps
+ * @returns JSX.Element
+ */
+const PromptInput: React.FC<ComponentProps> = ({ onSubmit, className }) => {
+  const [prompt, setPrompt] = useState<string>("");
+  const [enableSubmit, setEnableSubmit] = useState<boolean>(false);
 
-  const enableSubmit = useMemo(() => {
-    return prompt.trim().length > 0;
+  useEffect(() => {
+    setEnableSubmit(prompt.trim().length > 0);
   }, [prompt]);
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setPrompt(e.target.value);
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height =
-        textareaRef.current.scrollHeight + "px";
+  const handleSubmit = useCallback(() => {
+    enableSubmit && onSubmit(prompt);
+  }, [prompt, onSubmit, enableSubmit]);
+
+  const handleCtrlEnter = (e: React.KeyboardEvent<Element>) => {
+    if (e.key === "Enter" && e.ctrlKey) {
+      handleSubmit();
     }
   };
 
   return (
     <div
       className={cn(
-        " flex flex-wrap py-3 xl:w-[960px]  bg-[#45454e] rounded-md gap-4 px-4",
+        "flex flex-wrap py-3 xl:w-[960px] bg-[#45454e] rounded-md gap-4 px-4",
         className
       )}>
-      {/* <Textarea
-        ref={textareaRef}
-        value={prompt}
-        placeholder={"Type here..."}
-        onKeyDown={(e) => {
-          // ctrl + enter
-          if (e.ctrlKey && e.key === "Enter") {
-            handleSubmit(prompt);
-          }
-        }}
-        onChange={handleChange}
-        className="border-none w-full  resize-none  text-white rounded-md min-h-8
-         max-h-[200px]
-         flex-1x
-        focus-visible:outline-none
-        outline-none
-         focus:outline-none"
-      /> */}
+      {/* 输入框 */}
       <div className="flex-grow overflow-auto break-all flex items-center">
         <Textarea
-          onKeyDown={(e) => {
-            if (e.ctrlKey && e.key === "Enter") {
-              handleSubmit(prompt);
-            }
-          }}
-          onChange={(str) => {
+          className="overflow-y-auto max-h-32 w-full text-white bg-transparent  border-none focus-visible:outline-none"
+          value={prompt}
+          onKeyDown={handleCtrlEnter}
+          onChange={(str: string) => {
             setPrompt(str);
           }}
-          className=" overflow-y-auto max-h-32 w-full text-white bg-transparent  border-none focus-visible:outline-none"
         />
       </div>
       <div className="flex items-end mr-auto">
         <Button
           disabled={!enableSubmit}
-          onClick={() => enableSubmit && handleSubmit(prompt)}
+          onClick={handleSubmit}
           variant="outline"
           size="icon">
           <PaperPlaneIcon className="h-5 w-5" />
