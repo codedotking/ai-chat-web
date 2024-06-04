@@ -17,14 +17,13 @@ interface ComponentProps {
 const PromptInput: React.FC<ComponentProps> = ({ onSubmit, className }) => {
   const [prompt, setPrompt] = useState<string>("");
   const [enableSubmit, setEnableSubmit] = useState<boolean>(false);
-
   useEffect(() => {
     setEnableSubmit(prompt.trim().length > 0);
   }, [prompt]);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     enableSubmit && onSubmit(prompt);
-  }, [prompt, onSubmit, enableSubmit]);
+  };
 
   const handleCtrlEnter = (e: React.KeyboardEvent<Element>) => {
     if (e.key === "Enter" && e.ctrlKey) {
@@ -44,9 +43,7 @@ const PromptInput: React.FC<ComponentProps> = ({ onSubmit, className }) => {
           className="overflow-y-auto max-h-32 w-full text-white bg-transparent  border-none focus-visible:outline-none"
           value={prompt}
           onKeyDown={handleCtrlEnter}
-          onChange={(str: string) => {
-            setPrompt(str);
-          }}
+          onChange={(str: string) => setPrompt(str)}
         />
       </div>
       <div className="flex items-end mr-auto">
