@@ -11,6 +11,5 @@ export default function ChatPage({
 }: {
   params: { chatId: string };
 }) {
-  console.log(chatId);
   return <Chat chatId={chatId} />;
 }

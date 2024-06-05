@@ -1,14 +1,11 @@
 "use client";
 import { cn } from "@/lib/utils";
-import {
-  useRef,
-  type KeyboardEventHandler,
-  type KeyboardEvent,
-  useEffect,
-} from "react";
+import * as React from "react";
+import { type KeyboardEventHandler, type KeyboardEvent } from "react";
 import ContentEditable, {
   type ContentEditableEvent,
 } from "react-contenteditable";
+
 interface TextAreaProps {
   className?: string;
   value?: string;
@@ -22,23 +19,16 @@ const TextArea: React.FC<TextAreaProps> = ({
   onKeyDown,
   onChange,
 }) => {
-  const text = useRef(value);
-  useEffect(() => {
-    text.current = value;
-  }, [value]);
-
   const handleChange = (evt: ContentEditableEvent) => {
-    text.current = evt.target.value;
-    onChange && onChange(text.current);
+    onChange && onChange(evt.target.value);
   };
-
   const handleKeyDown: KeyboardEventHandler = (
     evt: KeyboardEvent<HTMLDivElement>
   ) => onKeyDown && onKeyDown(evt);
 
   return (
     <ContentEditable
-      html={text.current}
+      html={value}
       className={cn("whitespace-pre-wrap", className)}
       onKeyDown={handleKeyDown}
       onChange={handleChange}
